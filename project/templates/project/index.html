@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">
+            SMAL projects
+        </h1>
+    </div>
+</section>
+<div class="container">
+
+    {% if projects|length_is:0 %}
+        There are not projects yet.
+    {% else %}
+        <table class="table is-hoverable is-fullwidth">
+            <thead>
+            <tr>
+                <th>Project name</th>
+                <th>Project owner</th>
+                {% for milestone in milestones %}
+                    <th>{{ milestone.name }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for project, project_milestones in projects.items %}
+                <tr>
+                    <td><b>{{ project.name }}</b></td>
+                    <td>
+                        <div class="media">
+                            <figure class="media-left image is-24x24">
+                                <img class="is-rounded" src="https://i.pravatar.cc/150?img={{ project.owner.id }}">
+                            </figure>
+                            <p>{{ project.owner }}</p>
+                        </div>
+                    </td>
+                    {% for milestone in milestones %}
+                        <td>
+                            {{ project_milestones|key:milestone.id|date:'d-M-Y'|default:"-" }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+
+</body>
+</html>
